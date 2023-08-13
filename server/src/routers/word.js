@@ -5,16 +5,41 @@ const router = new express.Router()
 const auth = require('../middleware/auth')
 
 router.post('/words/save', auth, async (req,res) => {
+    const word = new Word(req.body)
     try {
-        const newWord = req.body.word
-        if (req.user.savedWords.includes(newWord)) {
-            return res.status(400).send('Word already exists!')
+        if (req.user.role !== 'admin') {
+            return res.status(401).send({ error: 'You do not have the permissions for this!' })
         }
-        req.user.savedWords.push(newWord)
+
+        const exists = await Word.findOne({
+            word: req.body.word,
+            partOfSpeech: req.body.partOfSpeech
+        })
+
+        if (exists) {
+            res.status(409).send('Word already exists!')
+        }else{
+            await word.save()
+            res.status(201).send('Word saved successfully!')
+        }
+
     } catch (e) {
         res.status(500).send('Something went wrong!')
     }
 
+})
+
+router.get('/words/quick', async (req,res) => {
+    const numWords = 30;
+    try {
+        const randomWords = await Word.aggregate([
+            { $sample: { size: numWords } }
+        ])
+        
+        res.status(200).send(randomWords)
+    } catch (e) {
+        res.status(500).send('Something went wrong!')
+    }
 })
 
 module.exports = router

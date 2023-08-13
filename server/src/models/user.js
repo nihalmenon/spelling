@@ -9,6 +9,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    },
     email: {
         type: String,
         unique: true,
@@ -20,6 +25,14 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Email is invalid.')
             }
         }
+    },
+    level: {
+        type: Number,
+        default: 0
+    },
+    score: {
+        type: Number,
+        default: 0
     },
     password: {
         type: String,
@@ -47,7 +60,29 @@ const userSchema = new mongoose.Schema({
     incorrectWords: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Word'
-    }]
+    }],
+    queuedWords: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Word'
+    }],
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    friendRequests: [
+        {
+            sender: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            },
+            status: {
+                type: String,
+                enum: ['pending', 'accepted', 'declined']
+            }
+        }
+    ]
 }, {
     timestamps: true
 })
@@ -58,12 +93,13 @@ userSchema.methods.toJSON = function () {
 
     delete userObject.password
     delete userObject.timestamps
+    delete userObject.tokens
     return userObject
 }
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'thisismytoken')
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_TOKEN)
 
     user.tokens = user.tokens.concat( { token })
     await user.save()
@@ -97,6 +133,8 @@ userSchema.pre('save', async function (next) { // can't be arrow in order to bin
 
     next()
 })
+
+
 
 const User = mongoose.model('User', userSchema)
 

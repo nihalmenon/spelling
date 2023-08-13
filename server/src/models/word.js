@@ -21,7 +21,10 @@ const wordSchema = new mongoose.Schema({
     tags: {
         type: String
     },
-    difficulty: {
+    zscore: {
+        type: Number
+    },
+    meanAccuracy: {
         type: Number
     },
     correct: {

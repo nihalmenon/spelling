@@ -1,10 +1,12 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { AppBar, Toolbar, Typography, Button, Box, useMediaQuery, IconButton} from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from '@mui/icons-material/Logout'
+import MenuIcon from '@mui/icons-material/Menu'
+import toast from 'react-hot-toast';
 
-function Header() {
+function Header( { handleDrawerToggle, drawerWidth } ) {
   const navigate = useNavigate();
   const authToken = localStorage.getItem('authToken')
 
@@ -19,6 +21,7 @@ function Header() {
         if (response.status === 200) {
             localStorage.removeItem('authToken')
             navigate('/')
+            toast.success('Logged out!')
         }
     } catch (e) {
         console.log(e)
@@ -27,19 +30,34 @@ function Header() {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Spelling
-        </Typography>
-        <Button color="inherit" onClick={handleLogout} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        Logout
-        <Box sx={{ marginLeft: '4px', paddingTop: '7px'}}>
-          <LogoutIcon sx={{ fontSize: '17px'}} />
-        </Box>
-      </Button>
-      </Toolbar>
-    </AppBar>
+    <Box display='flex'>
+      <AppBar position="fixed"
+        sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+            backgroundColor: "secondary.main",
+            color: "text.grey"
+        }}
+      >
+        <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          <Typography textAlign={"center"} variant="h3" component="div" sx={{ flexGrow: 1, color: 'primary.main' }} >
+            Spel.
+          </Typography>
+          <Button color="inherit" onClick={handleLogout} sx={{ marginRight: '-15px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0', '&:hover': { color: 'text.primary', bgcolor: 'white' }}}>
+              <LogoutIcon sx={{ fontSize: '17px'}} />
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
 

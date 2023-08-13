@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Alert } from '@mui/material';
+import { TextField, Button, Box, Alert, Typography, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 function SignUp() {
   const [formSuccess, setFormSuccess] = useState('')
@@ -26,15 +27,13 @@ function SignUp() {
         if (response.status === 201) {
             const authToken = response.data.token
             localStorage.setItem('authToken', authToken)
-            setFormSuccess('Successfully created an account. Redirecting...')
-            setTimeout(() => {
-                navigate('/profile')
-            }, 1000)
+            navigate('/profile')
+            toast.success('Created an account!')
         }else{
             throw new Error(response.message)
         }
     } catch (e) {
-        console.log(e)
+        setFormError(e.response.data.message)
     }
   };
 
@@ -45,7 +44,7 @@ function SignUp() {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        bgcolor: '#f5f5f5',
+        bgcolor: 'primary.main'
       }}
     >
       <Box
@@ -94,6 +93,7 @@ function SignUp() {
                 Sign Up
             </Button>
         </Box>
+        <Typography variant='subtitle2' sx={{textAlign: 'center', color: 'text.grey'}}>Already have an account? Log in <Link href="/login">here</Link>.</Typography>
         {formError === '' ? null : 
         (<Alert severity="error">
           {formError}
