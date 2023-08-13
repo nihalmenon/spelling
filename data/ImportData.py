@@ -1,6 +1,8 @@
 import requests
 from pymongo import MongoClient
 import csv
+import os
+from dotenv import load_dotenv
 
 # client = MongoClient()
 # db = client['spelling-api']
@@ -11,7 +13,7 @@ def GetWordInfo(word):
     url = "https://wordsapiv1.p.rapidapi.com/words/" + word
 
     headers = {
-        "X-RapidAPI-Key": "K2POZN1BZXmshm3MsbYYFnlPr92Np1a0476jsnz6y9sY1f9dhQ",
+        "X-RapidAPI-Key": os.getenv("RAPIDAPI_KEY"),
         "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com"
     }
 
