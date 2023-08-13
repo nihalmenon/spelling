@@ -19,29 +19,8 @@ function Profile() {
 	const [requestData, setRequestData] = useState([])
 	const [gameData, setGameData] = useState([])
 	const [error, setError] = useState('')
-	const [mobileOpen, setMobileOpen] = useState(false)
-	// const drawerWidth = 240
-	// const mobileWidth = 768
-	// const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 	const [gameViewModal, setGameViewModal] = useState(false)
 	const [gameViewData, setGameViewData] = useState({})
-
-	// const isMobile = () => {
-	// 	return windowWidth < mobileWidth
-	// }
-
-	// useEffect(() => {
-	// 	const handleResize = () => {
-	// 	  setWindowWidth(window.innerWidth);
-	// 	};
-	
-	// 	window.addEventListener('resize', handleResize);
-	// 	return () => window.removeEventListener('resize', handleResize);
-	// }, []);
-
-	// const handleDrawerToggle = () => {
-	// 	setMobileOpen(!mobileOpen);
-	// };
 
 	const navigate = useNavigate();
 
@@ -143,8 +122,6 @@ function Profile() {
 
 	return (
 		<>
-		{/* <Header handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth}/>
-		<Sidebar drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/> */}
 		<Box >
 			<Grid container spacing={2} sx={{ padding: '40px'}}>
 				<Grid item xs={12} md={6}>
