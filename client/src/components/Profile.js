@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Grid , Container, Box, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
-import Sidebar from './Sidebar';
 import { User, Friend, FriendRequest, Game } from '../datastructs/';
 import toast from 'react-hot-toast';
 import ProfileCard from './Cards/ProfileCard';
@@ -11,6 +9,7 @@ import FriendsCard from './Cards/FriendsCard';
 import FriendRequestsCard from './Cards/FriendRequestsCard';
 import GamesCard from './Cards/GamesCard';
 import GameView from './Views/GameView';
+import GameInvitesCard from './Cards/GameInvitesCard';
 
 
 function Profile() {
@@ -18,9 +17,8 @@ function Profile() {
 	const [friendData, setFriendData] = useState([])
 	const [requestData, setRequestData] = useState([])
 	const [gameData, setGameData] = useState([])
+	const [inviteData, setInviteData] = useState([])
 	const [error, setError] = useState('')
-	const [gameViewModal, setGameViewModal] = useState(false)
-	const [gameViewData, setGameViewData] = useState({})
 
 	const navigate = useNavigate();
 
@@ -33,6 +31,7 @@ function Profile() {
 		getFriends()
 		getFriendRequests()
 		getGameData()
+		getGameInviteData()
 	}
 
 	const getProfile = async () => {
@@ -115,9 +114,24 @@ function Profile() {
 		}
 	}
 
-	const handleGameView = (game) => {
-		setGameViewData(game)
-		setGameViewModal(true)
+	const getGameInviteData = async () => {
+		try {
+			const authToken = localStorage.getItem('authToken')
+			const response = await axios.get('http://localhost:3000/users/games/invites', {
+				headers: {
+					'Authorization': `Bearer ${authToken}`,
+				},
+			});
+			if (response.status === 200) {
+				const invites = response.data
+				setInviteData(invites)
+			}
+		} catch (e) {
+			setError(e.response.data.error);
+			if (e.response.status === 401) {
+				navigate('/login');
+			}
+		}
 	}
 
 	return (
@@ -131,14 +145,16 @@ function Profile() {
 					<FriendsCard friendData={friendData} />
 				</Grid>
 				<Grid item xs={12} md={6}>
+					<GamesCard gameData={gameData} />
+				</Grid>
+				<Grid item xs={12} md={6}>
 					<FriendRequestsCard requestData={requestData} getData={getData}/>
 				</Grid>
 				<Grid item xs={12} md={6}>
-					<GamesCard gameData={gameData} setGameViewData={setGameViewData} setGameViewModal={setGameViewModal}/>
+					<GameInvitesCard inviteData={inviteData} />
 				</Grid>
 			</Grid>
 		</Box>
-		{gameViewModal && <GameView gameViewModal={gameViewModal} setGameViewModal={setGameViewModal} game={gameViewData}/>}
 		</>
 	);
 }

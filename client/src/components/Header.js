@@ -49,7 +49,7 @@ function Header( { handleDrawerToggle, drawerWidth } ) {
             >
               <MenuIcon />
             </IconButton>
-          <Typography textAlign={"center"} variant="h3" component="div" sx={{ flexGrow: 1, color: 'primary.main' }} >
+          <Typography textAlign={"center"} variant="h2" component="div" sx={{ flexGrow: 1, color: 'primary.main' }} >
             Spel.
           </Typography>
           <Button color="inherit" onClick={handleLogout} sx={{ marginRight: '-15px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0', '&:hover': { color: 'text.primary', bgcolor: 'white' }}}>

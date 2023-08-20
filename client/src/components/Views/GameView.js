@@ -1,111 +1,150 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Typography, Modal, List, ListItem, ListItemText, Grid, IconButton, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, CircularProgress, Chip } from '@mui/material';
+import { Box, Button, Typography, Modal, List, ListItem, ListItemText, Grid, IconButton, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, CircularProgress, Paper, Link } from '@mui/material';
 import { formatDBDate, formatTime } from '../../utils/'
-import CloseIcon from '@mui/icons-material/Close'
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
-function GameView({ gameViewModal, setGameViewModal, game = null}) {
+function GameView({  }) {
+    const navigate = useNavigate()
+    const { id } = useParams()
+    const [game, setGame] = useState(null)
+
+    const fetchGameData = async () => {
+        try {
+			const authToken = localStorage.getItem('authToken')
+			const response = await axios.get('http://localhost:3000/games/' + id, {
+				headers: {
+					'Authorization': `Bearer ${authToken}`,
+				},
+			});
+			if (response.status === 200) {
+				const result = response.data
+                console.log(result)
+				setGame(result)
+			}
+		} catch (e) {
+			if (e.response.status === 404) {
+                toast.error('Game not found!')
+                navigate('/app/profile')
+            }
+			if (e.response.status === 401) {
+                toast.error('Please login!')
+				navigate('/login')
+			}
+		}
+    };
 
     useEffect(() => {
-        console.log(game)
-        console.log([...game.correctWords, ...game.incorrectWords])
-    }, [game])
+        console.log(id)
+        fetchGameData()
+    }, [id])
 
     return (
-        <Modal open={gameViewModal}>
-			<Box
-				sx={{
-					position: 'absolute',
-					top: '50%',
-					left: '50%',
-					transform: 'translate(-50%, -50%)',
-					backgroundColor: 'background.paper',
-					boxShadow: 24,
-					p: 4,
-					borderRadius: 8,
-                    width: '320px'
-				}}
-			>
-					<div >
-                    <IconButton
-                    sx={{ position: 'absolute', top: '8px', right: '8px' }}
-                    onClick={() => setGameViewModal(false)}>
-                        <CloseIcon/>
-                    </IconButton>
-					<Typography variant="h5">Game Details</Typography>
-					{!game ? <CircularProgress/> : <Box mt={2}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={3}>
-                                <Typography variant='body1'>Date:</Typography>
-                            </Grid>
-                            <Grid item xs={9}>
-                                <Typography variant='body1'>{game ? formatDBDate(game.createdAt) : formatDBDate(new Date())}</Typography>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Typography variant='body1'>Duration:</Typography>
-                            </Grid>
-                            <Grid item xs={9}>
-                                <Typography variant='body1'>{game ? formatTime(game.duration) : 0}</Typography>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Typography variant='body1'>Score:</Typography>
-                            </Grid>
-                            <Grid item xs={9}>
-                                <Typography variant='body1'>{game ? game.correctWords.length : 0}/{game ? game.correctWords.length + game.incorrectWords.length : 0}</Typography>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Typography variant='body1'>Words:</Typography>
-                            </Grid>
-                            <Grid item xs={9}>
-                                <Typography variant='body1'>{game ? game.wordCount : 0}</Typography>
-                            </Grid>
+        <Box
+        sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            // bgcolor: 'primary.main',
+            color: 'text.ternary'
+        }}
+    >
+        <Paper elevation={3} sx={{ p: 3, width: '65vw', minWidth: '300px', textAlign: 'center' }}>
+            <div>
+                <Typography variant="h4">Game Details</Typography>
+                {!game ? <CircularProgress/> : <Box mt={2}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={3}>
+                            <Typography variant='body1'>Date:</Typography>
                         </Grid>
-                        <TableContainer sx={{mt:2}}>
-                            <Typography variant='h4'>Words</Typography>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
+                        <Grid item xs={9}>
+                            <Typography variant='body1'>{formatDBDate(game.createdAt)}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant='body1'>Duration:</Typography>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Typography variant='body1'>{formatTime(game.duration)}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant='body1'>Score:</Typography>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Typography variant='body1'>{game.score}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant='body1'>Word Count:</Typography>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Typography variant='body1'>{game.wordCount}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant='body1'>Rank:</Typography>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Typography variant='body1'>{game.rank}/{game.numPlayers}</Typography>
+                        </Grid>
+                    </Grid>
+                    {game.leaderboard.length > 0 && (
+                        <TableContainer component={Paper} sx={{mt:2, paddingTop:2}}>
+                        <Typography variant='body1'>Rankings</Typography>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Rank</TableCell>
+                                    <TableCell>Player</TableCell>
+                                    <TableCell>Score</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {game.leaderboard.map((player, index) => (
+                                    <TableRow key={player.user._id}>
+                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>{player.user.name}</TableCell>
+                                        <TableCell>{player.score}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                        </TableContainer>
+                    )}
+                    <TableContainer component={Paper} sx={{mt:2, paddingTop:2}}>
+                        <Typography variant='body1'>Words</Typography>
+                        <Table sx={{ px: 1}}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        Word
+                                    </TableCell>
+                                    <TableCell>
+                                        Result
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {[...game.correctWords, ...game.incorrectWords].map((word, i) => (
+                                    <TableRow key={word._id}>
                                         <TableCell>
-                                            Word
+                                            {word.word}
                                         </TableCell>
                                         <TableCell>
-                                            Result
+                                            {i >= game.correctWords.length ? "Incorrect" : "Correct"}
                                         </TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {[...game.correctWords, ...game.incorrectWords].map((word, i) => (
-                                        <TableRow key={word._id}>
-                                            <TableCell>
-                                                {word.word}
-                                            </TableCell>
-                                            <TableCell>
-                                                {i >= game.correctWords.length ? "Incorrect" : "Correct"}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        
-						{/* <List>
-							<ListItem>
-								<ListItemText primary="Correct Words" secondary={stats && `${stats.correctWords.length}/${stats.correctWords.length + stats.incorrectWords.length}`} />
-							</ListItem>
-							<ListItem>
-								<ListItemText primary="Correct Words List" secondary={stats && getWordsAsString(stats.correctWords)} />
-							</ListItem>
-							<ListItem>
-								<ListItemText primary="Incorrect Words List" secondary={stats && getWordsAsString(stats.incorrectWords)} />
-							</ListItem>
-						</List> */}
-					</Box>
-                    }
-					<Box display="flex" justifyContent="center" mt={3}>
-                        <Button onClick={() => setGameViewModal(false)}>Close</Button>
-					</Box>
-					</div>
-			</Box>
-		</Modal>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
+                }
+                <Box display="flex" justifyContent="center" mt={3}>
+                    <a href='/app/profile' style={{textDecoration:'none'}}><Button>Home Page</Button></a>
+                </Box>
+            </div>
+        </Paper>
+    </Box>
     )
 }
 

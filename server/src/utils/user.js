@@ -1,6 +1,6 @@
 const users = []
 
-const addUser = ({ id, gameId, playerId, room }) => {
+const addUser = ({ id, gameId, playerId, room, playerName }) => {
     // Clean the data
     room = room.trim()
 
@@ -22,7 +22,7 @@ const addUser = ({ id, gameId, playerId, room }) => {
     }
 
     // Add user
-    const user = { id, gameId, playerId, room, correctWords: [], incorrectWords: []}
+    const user = { id, gameId, playerId, playerName, room, correctWords: [], incorrectWords: [], score: 0}
     users.push(user)
     return { user }
 }
@@ -37,7 +37,6 @@ const removeUser = ( id ) =>  {
 
 const getUser = ( id ) => {
     const user = users.find((user) => user.id === id)
-
     if (user) {
         return user
     }
@@ -51,6 +50,16 @@ const getUsersInRoom = (room) => {
     return users.filter((user) => user.room === room)
 }
 
+const getLeaderBoard = (room) => {
+    const data = users.filter((user) => user.room === room);
+    const sortedData = data
+        .map((user) => ({ _id: user.playerId, name: user.playerName, score: user.score }))
+        .sort((a, b) => b.score - a.score);
+
+    return sortedData;
+};
+
+
 const getAllUsers = () => {
     return users
 }
@@ -60,5 +69,6 @@ module.exports = {
     removeUser,
     getUser,
     getUsersInRoom,
-    getAllUsers
+    getAllUsers,
+    getLeaderBoard
 }

@@ -27,7 +27,7 @@ function SignUp() {
         if (response.status === 201) {
             const authToken = response.data.token
             localStorage.setItem('authToken', authToken)
-            navigate('/profile')
+            navigate('/app/profile')
             toast.success('Created an account!')
         }else{
             throw new Error(response.message)

@@ -82,6 +82,17 @@ const userSchema = new mongoose.Schema({
                 enum: ['pending', 'accepted', 'declined']
             }
         }
+    ],
+    gameInvites: [
+        {
+            sender: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            },
+            room: {
+                type: String
+            }
+        }
     ]
 }, {
     timestamps: true

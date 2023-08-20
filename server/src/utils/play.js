@@ -1,7 +1,8 @@
-const { ObjectId } = require('mongodb')
+const mongoose = require('mongoose')
 const Game = require('../models/game')
 const User = require('../models/user')
-const { removeUser, getAllUsers, getUser } = require('../utils/user')
+const { removeUser, getAllUsers, getUser, getUsersInRoom, getLeaderBoard } = require('../utils/user')
+const { getPlayersFromRoom } = require('../utils/room')
 
 const createGame = async ({ playerId, duration, room }) => {
     try {
@@ -31,7 +32,7 @@ const startGame = async ({ playerId, duration, room }) => {
     }
 }
 
-const finishGame = async (socketId) => {
+const finishGame = async (socketId, rank = null, numPlayers = null, leaderboard = null) => {
     const socketUser = await getUser(socketId)
     const game = await Game.findById(socketUser.gameId)
 
@@ -40,7 +41,10 @@ const finishGame = async (socketId) => {
     socketUser.correctWords.forEach((word) => game.correctWords.push(word))
     socketUser.incorrectWords.forEach((word) => game.incorrectWords.push(word))
     game.wordCount = socketUser.correctWords.length + socketUser.incorrectWords.length
-    game.score = socketUser.correctWords.length
+    game.score = socketUser.score
+    if (rank) game.rank = rank
+    if (numPlayers) game.numPlayers = numPlayers
+    if (leaderboard) game.leaderboard = leaderboard
     await game.save()
     // append all new words to user's correct and incorrect words
     const user = await User.findById(socketUser.playerId)
@@ -57,7 +61,35 @@ const finishGame = async (socketId) => {
 
     setTimeout(() => {
         removeUser(socketId)
-    }, 30000)
+    }, 100000) // 1 minute buffer
+
+}
+
+const finishMultiplayerGame = async (room) => {
+    const players = getUsersInRoom(room)
+    const numPlayers = players.length;
+    const leaderboard = getLeaderBoard(room).map(player => ({ user: new mongoose.Types.ObjectId(player._id), score: player.score }))
+    players.sort((a,b) => b.score - a.score)
+
+    let currentRank = 1
+    let currentScore = players[0].score
+
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].score < currentScore) {
+            currentRank = i + 1;
+            currentScore = players[i].score;
+        }
+        players[i].rank = currentRank;
+    }
+
+    for (let i = 0; i < players.length; i++) {
+        const player = players[i]
+        finishGame(player.id, players[i].rank, numPlayers, leaderboard)
+    }
+
+    // need to remove all game invites with this room
+    removeGameInvitesByRoom(room)
+
 }
 
 // upgrade player level, identify weaknesses and words
@@ -65,7 +97,20 @@ const runGameAnalysis = async ( { socketId }) => {
     return // temporary
 }
 
+const removeGameInvitesByRoom = async (room) => {
+    try {
+      await User.updateMany(
+        { 'gameInvites.room': room },
+        { $pull: { gameInvites: { room } } }
+      );
+    } catch (error) {
+      console.error('Error removing game invites:', error);
+    }
+  };
+  
+
 module.exports = {
     startGame,
-    finishGame
+    finishGame,
+    finishMultiplayerGame
 }

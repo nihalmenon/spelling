@@ -3,7 +3,7 @@ import { Box, Button, Typography, Modal, List, ListItem, ListItemText } from '@m
 import { getWordsAsString } from '../utils/'
 
 function StatModal({ showStatModal, setShowStatModal, stats }) {
-
+	
     return (
         <Modal open={showStatModal}>
 			<Box
@@ -24,6 +24,9 @@ function StatModal({ showStatModal, setShowStatModal, stats }) {
 					<Box mt={2}>
 						<List>
 							<ListItem>
+								<ListItemText primary="Correct Words" secondary={stats && `${stats.score}`} />
+							</ListItem>
+							<ListItem>
 								<ListItemText primary="Correct Words" secondary={stats && `${stats.correctWords.length}/${stats.correctWords.length + stats.incorrectWords.length}`} />
 							</ListItem>
 							<ListItem>
@@ -36,6 +39,8 @@ function StatModal({ showStatModal, setShowStatModal, stats }) {
 					</Box>
 					<Box display="flex" justifyContent="center" mt={3}>
                         <Button onClick={() => window.location.reload()}>Play new game</Button>
+						<br/>
+						<a href='/app/profile' style={{textDecoration:'none'}}><Button>Home Page</Button></a>
 					</Box>
 					</div>
 			</Box>

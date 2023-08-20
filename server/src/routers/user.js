@@ -17,9 +17,7 @@ router.post('/users', async (req,res) => {
 
 router.post('/users/login', async (req,res) => {
     try {
-        console.log(req.body)
         const user = await User.findByCredentials(req.body.email, req.body.password)
-        console.log(user)
         const token = await user.generateAuthToken()
         res.send({ user, token })
     } catch (e) {
@@ -192,6 +190,34 @@ router.get('/users/friends/requests', auth, async (req,res) => {
 
     } catch (e) {
         return res.status(500).send()
+    }
+})
+
+router.get('/users/games/invites', auth, async (req,res) => {
+    try {
+        await req.user.populate('gameInvites.sender')
+        let gameInvites = req.user.gameInvites.map((invite) => ({
+            _id: invite.sender._id,
+            email: invite.sender.email,
+            name: invite.sender.name,
+            room: invite.room
+        }))
+
+        return res.status(200).send(gameInvites)
+    } catch (e) {
+        return res.status(500).send()
+    }
+})
+
+router.post('/users/games/invites/send', auth, async (req,res) => {
+    try {
+        const invitee = await User.findOne({ email: req.body.email })
+        invitee.gameInvites.push({ sender: req.user._id, room: req.body.room })
+        await invitee.save()
+        res.status(201).send()
+    } catch (e) {
+        console.log(e)
+        res.status(500).send()
     }
 })
 

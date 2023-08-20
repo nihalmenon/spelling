@@ -13,7 +13,7 @@ function Login() {
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    if (e) e.preventDefault()
     setFormError('')
     setFormSuccess('')
     try {
@@ -25,7 +25,7 @@ function Login() {
         if (response.status === 200) {
           const authToken = response.data.token
           localStorage.setItem('authToken', authToken)
-          navigate('/profile')
+          navigate('/app/profile')
           toast.success('Logged in!')
         }else{
           throw new Error(response.data)
@@ -33,7 +33,13 @@ function Login() {
     } catch (e) {
         console.log(e)
     }
-  };
+  }
+
+  const handleKeyPress = (e) => {
+		if (e.key === 'Enter') {
+			handleSubmit()
+		}
+	}
 
   return (
     <Box
@@ -65,6 +71,7 @@ function Login() {
           required
           fullWidth
           sx={{my:1}}
+          onKeyDown={handleKeyPress}   
         />
         <TextField
           label="Password"
@@ -74,6 +81,7 @@ function Login() {
           required
           fullWidth
           sx={{my:1}}
+          onKeyDown={handleKeyPress}   
         />
         <Box sx={{ mx: 'auto', my: 2, width: 'fit-content' }}>
             <Button variant="contained" sx={{ bgcolor: 'primary.main' }} type="submit">

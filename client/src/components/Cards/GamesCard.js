@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import toast from 'react-hot-toast'
 import { formatDBDate } from '../../utils/time'
 
-const GamesCard = ({ gameData, setGameViewData, setGameViewModal }) => {
+const GamesCard = ({ gameData }) => {
     const MAX_DISPLAY_GAMES = 6
     const [displayedGames, setDisplayedGames] = useState([])
 
@@ -28,10 +28,6 @@ const GamesCard = ({ gameData, setGameViewData, setGameViewModal }) => {
 		}
 	}, [gameData, showAllGames])
 
-	const viewGame = (game) => {
-		setGameViewData(game);
-		setGameViewModal(true);
-	}
 
     return (
 		<Card
@@ -50,10 +46,10 @@ const GamesCard = ({ gameData, setGameViewData, setGameViewModal }) => {
 				{displayedGames.map((game) => (
 					<ListItem key={game._id} sx={{ paddingLeft: 0 }}>
 						<Typography variant="body1">
-							<Link component="button" onClick={() => viewGame(game)}>
+							<Link href={"/app/game/" + game._id}>
 								{formatDBDate(game.createdAt)}
 							</Link>{' '}
-							- {game.score}
+							- Score: {game.score}
 						</Typography>
 					</ListItem>
 				))}

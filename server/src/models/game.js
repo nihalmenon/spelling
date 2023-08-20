@@ -36,7 +36,24 @@ const gameSchema = new mongoose.Schema({
         type: String,
         enum: ['pending', 'inProgress', 'completed', 'cancelled'],
         default: 'pending'
-    }
+    },
+    rank: {
+        type: Number,
+        default: 1
+    },
+    numPlayers: {
+        type: Number,
+        default: 1
+    },
+    leaderboard: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        score: {
+            type: Number
+        }
+    }]
 }, {
     timestamps: true
 })

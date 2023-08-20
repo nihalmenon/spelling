@@ -2,7 +2,10 @@ import React from 'react';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, Toolbar, Divider  } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import InboxIcon from '@mui/icons-material/Inbox';
-import CasinoIcon from '@mui/icons-material/Casino'
+import CasinoIcon from '@mui/icons-material/Casino';
+import CreateIcon from '@mui/icons-material/Create';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
 
@@ -11,15 +14,17 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
 		<Toolbar />
       	<Divider />
 		<List sx={{ color: "text.lightBlue"}}>
-			<ListItemButton sx={{
-				'&:hover': { color: 'white', bgcolor: 'text.darkBlue' }
-			}}>
-				<ListItemIcon>
-					<HomeIcon sx={{ color: 'text.lightBlue'}}/>
-				</ListItemIcon>
-				<ListItemText primary="Home" sx={{ fontSize: 'small' }} />
-			</ListItemButton>
-			<a href="/play" style={{ textDecoration: 'none', color: 'inherit' }}>
+			<a href="/app/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+				<ListItemButton sx={{
+					'&:hover': { color: 'white', bgcolor: 'text.darkBlue' }
+				}}>
+					<ListItemIcon>
+						<HomeIcon sx={{ color: 'text.lightBlue'}}/>
+					</ListItemIcon>
+					<ListItemText primary="Home" sx={{ fontSize: 'small' }} />
+				</ListItemButton>
+			</a>
+			<a href="/app/play" style={{ textDecoration: 'none', color: 'inherit' }}>
 				<ListItemButton sx={{
 					'&:hover': { color: 'white', bgcolor: 'text.darkBlue' }
 				}}>
@@ -29,11 +34,39 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
 					<ListItemText primary="Play Now" sx={{ fontSize: 'small' }} />
 				</ListItemButton>
 			</a>
+			<a href="/app/room?form=create" style={{ textDecoration: 'none', color: 'inherit' }}>
+				<ListItemButton sx={{
+					'&:hover': { color: 'white', bgcolor: 'text.darkBlue' }
+				}}>
+					<ListItemIcon>
+						<CreateIcon sx={{ color: 'text.lightBlue'}} />
+					</ListItemIcon>
+					<ListItemText primary="Create Room" sx={{ fontSize: 'small' }} />
+				</ListItemButton>
+			</a>
+			<a href="/app/room?form=join" style={{ textDecoration: 'none', color: 'inherit' }}>
+				<ListItemButton sx={{
+					'&:hover': { color: 'white', bgcolor: 'text.darkBlue' }
+				}}>
+					<ListItemIcon>
+						<HourglassTopIcon sx={{ color: 'text.lightBlue'}} />
+					</ListItemIcon>
+					<ListItemText primary="Join Room" sx={{ fontSize: 'small' }} />
+				</ListItemButton>
+			</a>
+			<a href="/app/settings" style={{ textDecoration: 'none', color: 'inherit' }}>
+				<ListItemButton sx={{
+					'&:hover': { color: 'white', bgcolor: 'text.darkBlue' }
+				}}>
+					<ListItemIcon>
+						<SettingsIcon sx={{ color: 'text.lightBlue'}}/>
+					</ListItemIcon>
+					<ListItemText primary="Settings" sx={{ fontSize: 'small' }} />
+				</ListItemButton>
+			</a>
 		</List>
 		</>
 	)
-
-	const isMobile = useMediaQuery('(max-width:600px)')
 
 	return (
 		<>
@@ -42,7 +75,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },

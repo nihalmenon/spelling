@@ -8,7 +8,11 @@ import SignUp from './components/SignUp';
 import QuickGame from './components/QuickGame';
 import Play from './components/Play';
 import Profile from './components/Profile';
+import PendingRoom from './components/PendingRoom';
 import toast, { Toaster } from 'react-hot-toast';
+import MultiplayerGame from './components/MultiplayerGame';
+import GameView from './components/Views/GameView';
+import AppErrorPage from './components/AppErrorPage';
 
 function App() {
   return (
@@ -20,7 +24,11 @@ function App() {
             <Route path="quickgame" element={<QuickGame />} />
             <Route path="play" element={<Play />} />
             <Route path="profile" element={<Profile/>}/>
-            <Route path="*" element={<ErrorPage/>}/>
+            <Route path="room" element={<PendingRoom/>}/>
+            <Route path="multiplayer" element={<MultiplayerGame/>}/>
+            <Route path="game/:id" element={<GameView/>} />
+            {/* <Route path="settings" element={} /> */}
+            <Route path="*" element={<AppErrorPage/>}/>
           </Route>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

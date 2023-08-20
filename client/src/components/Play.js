@@ -69,7 +69,7 @@ function Play() {
 			setWordList(words)
 			setWordCount(0)
 		})
-        socket.emit('game_start', { duration, playerId: userData._id }, (error) => {
+        socket.emit('game_start', { duration, playerId: userData._id, playerName: userData.name }, (error) => {
 
 			if (error) {
 				setShowError(true)
@@ -160,18 +160,10 @@ function Play() {
     return ( 
 		<>
 		<div style={{
-			position: 'fixed',
-			top: '20px',
-			left: 0,
-			right: 0,
 			height: '50px',
-			// backgroundColor: 'secondary.main',
-			backgroundColor: 'white',
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			fontSize: '24px',
 			paddingTop: '20px',
+			width:'100%',
+			margin: '0 auto'
 		}}>
 			<Typography variant='h1' sx={{textAlign:'center', color:'text.secondary'}}>{formatTime(time)}</Typography>
 		</div>

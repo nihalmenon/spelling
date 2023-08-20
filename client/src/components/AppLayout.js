@@ -16,7 +16,7 @@ const AppLayout = () => {
 
 	useEffect(() => {
 		const handleResize = () => {
-		  setWindowWidth(window.innerWidth);
+		  	setWindowWidth(window.innerWidth);
 		};
 	
 		window.addEventListener('resize', handleResize);
