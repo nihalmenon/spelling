@@ -13,6 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import MultiplayerGame from './components/MultiplayerGame';
 import GameView from './components/Views/GameView';
 import AppErrorPage from './components/AppErrorPage';
+import Settings from './components/Settings';
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
             <Route path="room" element={<PendingRoom/>}/>
             <Route path="multiplayer" element={<MultiplayerGame/>}/>
             <Route path="game/:id" element={<GameView/>} />
-            {/* <Route path="settings" element={} /> */}
+            <Route path="settings" element={<Settings />} />
             <Route path="*" element={<AppErrorPage/>}/>
           </Route>
           <Route path="/" element={<Home />} />

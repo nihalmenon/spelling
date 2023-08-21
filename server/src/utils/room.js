@@ -78,11 +78,16 @@ const updatePlayerScoreInRoom = (roomName, socketId) => {
 	return { error: 'User not found!' }; 
 };
 
+const deleteRoom = (roomName) => {
+    delete rooms.roomName
+}
+
 module.exports = {
     addUserToRoom,
     createRoom,
     removeUserFromRoom,
     getPlayersFromRoom,
     addWordsToRoom,
-    updatePlayerScoreInRoom
+    updatePlayerScoreInRoom,
+    deleteRoom
 }

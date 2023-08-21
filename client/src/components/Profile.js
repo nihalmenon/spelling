@@ -10,6 +10,7 @@ import FriendRequestsCard from './Cards/FriendRequestsCard';
 import GamesCard from './Cards/GamesCard';
 import GameView from './Views/GameView';
 import GameInvitesCard from './Cards/GameInvitesCard';
+import FriendSearchModal from './Modals/FriendSearchModal';
 
 
 function Profile() {
@@ -133,9 +134,11 @@ function Profile() {
 			}
 		}
 	}
-
+	// const [selectedFriend, setSelectedFriend] = useState({name: ''})
+	// const toggleInviteModal = () => {}
 	return (
 		<>
+		{/* <FriendSearchModal inviteModal={true} toggleInviteModal={toggleInviteModal} selectedFriend={selectedFriend} setSelectedFriend={setSelectedFriend}/> */}
 		<Box >
 			<Grid container spacing={2} sx={{ padding: '40px'}}>
 				<Grid item xs={12} md={6}>

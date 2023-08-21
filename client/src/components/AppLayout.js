@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 
 const AppLayout = () => {
     const drawerWidth = 240
-	const mobileWidth = 768
+	const mobileWidth = 600
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [mobileOpen, setMobileOpen] = useState(false)
 

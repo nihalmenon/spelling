@@ -69,7 +69,6 @@ function PendingRoom () {
         if (userData !== {}) {
           try {
             const authToken = localStorage.getItem('authToken')
-            console.log(authToken)
             const response = await axios.post('http://localhost:3000/games/room/create', {}, {
               headers: {
                 'Authorization': `Bearer ${authToken}`,

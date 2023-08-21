@@ -36,7 +36,6 @@ function GameView({  }) {
     };
 
     useEffect(() => {
-        console.log(id)
         fetchGameData()
     }, [id])
 

@@ -5,11 +5,6 @@ import FriendSearchModal from './Modals/FriendSearchModal';
 
 function WaitingRoom({ userData, isOwner, duration, gameStartModal, handleChangeDuration, profileLoading, handleStartGame, players, toggleGameStartModal, room }) {
 	const [inviteModal, setInviteModal] = useState(false)
-	const [selectedFriend, setSelectedFriend] = useState({})
-
-	const toggleInviteModal = () => {
-		setInviteModal(!inviteModal)
-	}
 
 	return (
         <>
@@ -31,11 +26,11 @@ function WaitingRoom({ userData, isOwner, duration, gameStartModal, handleChange
 				<CircularProgress size={30} sx={{ mt: 1 }} />
 			</Box>
             <Box>
-				{/* <Button onClick={toggleInviteModal}>Invite Friend</Button> */}
+				<Button onClick={() => setInviteModal(true)}>Invite Friend</Button>
                 {isOwner && <Button onClick={toggleGameStartModal}>Start Game</Button>}
             </Box>
 		</Paper>
-		{/* <FriendSearchModal inviteModal={inviteModal} toggleInviteModal={toggleInviteModal} setSelectedFriend={setSelectedFriend}/> */}
+		<FriendSearchModal inviteModal={inviteModal} setInviteModal={setInviteModal} room={room}/>
         {isOwner && <Modal open={gameStartModal}>
 			<Box
 				sx={{

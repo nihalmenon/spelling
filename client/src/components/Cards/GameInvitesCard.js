@@ -15,11 +15,12 @@ const GameInvitesCard = ({ inviteData }) => {
     }
     
     useEffect(() => {
+        console.log(inviteData)
         setDisplayedInvites(inviteData.slice(0, MAX_DISPLAY_GAMES))
     }, [inviteData])
 
    const joinRoom = (room) => {
-        navigate('/app/profile/multiplayer?room=' + room)
+        navigate('/app/multiplayer?room=' + room)
    }
 
     return (

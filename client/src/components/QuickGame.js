@@ -22,6 +22,7 @@ function QuickGame() {
 	const [isCorrect, setIsCorrect] = useState(null)
 	const [correctWords, setCorrectWords] = useState([])
 	const [incorrectWords, setIncorrectWords] = useState([])
+	const [score, setScore] = useState(0)
 	const [time, setTime] = useState(duration)
 	const [gameFinished, setGameFinished] = useState(false)
 	const [showStatModal, setShowStatModal] = useState(false)
@@ -114,9 +115,11 @@ function QuickGame() {
 		if (input.trim() == word['word']) {
 			setIsCorrect(true)
 			setCorrectWords(prev => [...prev, word])
+			setScore(prev => prev + 1)
 		}else{
 			setIsCorrect(false)
 			setIncorrectWords(prev => [...prev, word])
+			setScore(prev => prev - 1)
 		}
 		setInput('')
 		setPrevWord(word)
@@ -136,15 +139,10 @@ function QuickGame() {
 	return ( 
 		<>
 		<div style={{
-			position: 'fixed',
-			top: '20px',
-			left: 0,
-			right: 0,
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			fontSize: '24px',
+			height: '50px',
 			paddingTop: '20px',
+			width:'100%',
+			margin: '0 auto'
 		}}>
 			<Typography variant='h1' sx={{textAlign:'center', color:'text.secondary'}}>{formatTime(time)}</Typography>
 		</div>
@@ -154,11 +152,10 @@ function QuickGame() {
 				justifyContent: 'center',
 				alignItems: 'center',
 				minHeight: '100vh',
-				bgcolor: 'primary.main',
 				color: 'text.ternary'
 			}}
 		>
-			<Paper sx={{ padding: '20px', maxWidth: '350px' }}>
+			<Paper sx={{ padding: '20px', maxWidth: '350px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', borderRadius: '8px', backgroundColor: 'white', }}>
 				{loading ? <CircularProgress/> :
 					<>
 					<Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -199,13 +196,11 @@ function QuickGame() {
 					width: '300px',
 				}}
 			>
-				{/* <IconButton sx={{ position: 'absolute', top: 0, right: 0 }} onClick={onClose}>
-					<CloseIcon />
-				</IconButton> */}
 					<div>
 						<Typography variant="h5" gutterBottom sx={{}}>
 							Spelling Game Options
 						</Typography>
+						<Typography variant="body2" color="text.grey">This is QuickGame mode. <Link href="/login">Log in</Link> to save results!</Typography>
 						<Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
 							<Typography variant="h6">Duration:</Typography>
 							<span>&emsp;</span>
@@ -224,7 +219,7 @@ function QuickGame() {
 					</div>
 			</Box>
 		</Modal>
-		<StatModal showStatModal={showStatModal} setShowStatModal={setShowStatModal} stats={{correctWords, incorrectWords}}/>
+		<StatModal showStatModal={showStatModal} setShowStatModal={setShowStatModal} stats={{correctWords, incorrectWords, score}}/>
 		</>
 	);
 };

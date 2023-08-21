@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Alert, Typography, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -12,6 +12,26 @@ function SignUp() {
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    getProfile() // check if already logged in
+  }, [])
+
+  const getProfile = async () => {
+		try {
+			const authToken = localStorage.getItem('authToken')
+			const response = await axios.get('http://localhost:3000/users/me', {
+				headers: {
+					'Authorization': `Bearer ${authToken}`,
+				},
+			});
+			if (response.status === 200) {
+        navigate('/app/profile')
+        toast.success('Already logged in!')
+			}
+		} catch (e) {
+		}
+	}
 
   const handleSubmit = async (e) => {
     e.preventDefault()

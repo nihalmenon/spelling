@@ -173,7 +173,6 @@ function Play() {
 				justifyContent: 'center',
 				alignItems: 'center',
 				minHeight: '100vh',
-				// bgcolor: 'primary.main',
 				color: 'text.ternary'
 			}}
 		>

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Game = require('../models/game')
 const User = require('../models/user')
 const { removeUser, getAllUsers, getUser, getUsersInRoom, getLeaderBoard } = require('../utils/user')
-const { getPlayersFromRoom } = require('../utils/room')
+const { deleteRoom } = require('../utils/room')
 
 const createGame = async ({ playerId, duration, room }) => {
     try {
@@ -89,7 +89,7 @@ const finishMultiplayerGame = async (room) => {
 
     // need to remove all game invites with this room
     removeGameInvitesByRoom(room)
-
+    deleteRoom(room)
 }
 
 // upgrade player level, identify weaknesses and words
