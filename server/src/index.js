@@ -39,9 +39,9 @@ io.on('connection', (socket) => {
   console.log('new web socket connection: ' + socket.id)
 
   // single player 
-  socket.on('game_start', async ({ playerId, duration }, callback) => {
+  socket.on('game_start', async ({ playerId, duration, playerName }, callback) => {
     try {
-      const game = await startGame({ playerId, duration, playerName })
+      const game = await startGame({ playerId, duration })
       const { error, user } = addUser({ id: socket.id, playerId: game.player, playerName, room: game.room, gameId: game._id })
 
       if (error) {

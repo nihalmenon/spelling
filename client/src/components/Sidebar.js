@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, Toolbar, Divider  } from '@mui/material';
+import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, Toolbar, Divider, Typography, Box  } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import InboxIcon from '@mui/icons-material/Inbox';
 import CasinoIcon from '@mui/icons-material/Casino';
@@ -12,6 +12,9 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
 	const drawer = (
 		<>
 		<Toolbar />
+		<Box sx={{mx: 'auto', mb:1, mt:'-45px'}}>
+			<Typography variant="h4" color="white">Spel.</Typography>
+		</Box>
       	<Divider />
 		<List sx={{ color: "text.lightBlue"}}>
 			<a href="/app/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
