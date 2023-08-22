@@ -1,10 +1,5 @@
-const express = require('express')
+const app = require('./app')
 const http = require('http')
-require('./db/mongoose')
-const userRouter = require('./routers/user')
-const wordRouter = require('./routers/word')
-const gameRouter = require('./routers/game')
-const cors = require('cors')
 const User = require('./models/user')
 const Word = require('./models/word')
 const Game = require('./models/game')
@@ -14,7 +9,7 @@ const { startGame, finishGame, finishMultiplayerGame } = require('./utils/play')
 const { addUser, removeUser, getUser, getUsersInRoom, getAllUsers, getLeaderBoard } = require('./utils/user')
 const { addUserToRoom, removeUserFromRoom, getPlayersFromRoom, addWordsToRoom, updatePlayerScoreInRoom } = require('./utils/room')
 
-const app = express()
+// const app = express()
 const server = http.createServer(app)
 const io = socketio(server, {
   cors: {
@@ -23,17 +18,17 @@ const io = socketio(server, {
   }
 })
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 
-app.use(cors({
-  origin: 'http://localhost:3001',
-  methods: ['GET','POST','DELETE','UPDATE','PATCH','OPTIONS']
-}));
+// app.use(cors({
+//   origin: 'http://localhost:3001',
+//   methods: ['GET','POST','DELETE','UPDATE','PATCH','OPTIONS']
+// }));
 
-app.use(express.json())
-app.use(userRouter)
-app.use(wordRouter)
-app.use(gameRouter)
+// app.use(express.json())
+// app.use(userRouter)
+// app.use(wordRouter)
+// app.use(gameRouter)
 
 io.on('connection', (socket) => {
   console.log('new web socket connection: ' + socket.id)
@@ -251,5 +246,7 @@ io.on('connection', (socket) => {
 })
 
 server.listen(port, () => {
-    console.log('Server is up on port ' + port)
+  console.log('Server is up on port ' + port)
 })
+
+module.exports = server

@@ -51,14 +51,14 @@ router.post('/users/logoutAll', auth, async (req,res) => {
 })
 
 // for development
-router.get('/users', async (req,res) => {
-    try {
-       const users = await User.find({})
-       res.send(users)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
+// router.get('/users', async (req,res) => {
+//     try {
+//        const users = await User.find({})
+//        res.send(users)
+//     } catch (e) {
+//         res.status(500).send()
+//     }
+// })
 
 router.get('/users/me', auth, async (req,res) => {
     res.send(req.user)
