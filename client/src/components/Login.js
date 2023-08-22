@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Alert, Typography, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import axios from '../requests/axios'
 import toast from 'react-hot-toast'
 
 function Login() {
@@ -19,7 +19,7 @@ function Login() {
   const getProfile = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/users/me', {
+			const response = await axios.get('/users/me', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -38,7 +38,7 @@ function Login() {
     setFormError('')
     setFormSuccess('')
     try {
-        const response = await axios.post('http://localhost:3000/users/login', {
+        const response = await axios.post('/users/login', {
           email,
           password
         });

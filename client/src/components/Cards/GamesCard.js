@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import axios from '../../requests/axios'
 import { Card, CardContent, Typography, Box, CardHeader, Button, ListItem, Modal, TextField, IconButton, Link } from '@mui/material'
 import { User } from '../../datastructs'
 import CloseIcon from '@mui/icons-material/Close'

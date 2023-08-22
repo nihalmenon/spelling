@@ -109,14 +109,17 @@ userSchema.methods.toJSON = function () {
 }
 
 userSchema.methods.generateAuthToken = async function () {
-    const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_TOKEN)
+    const user = this;
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_TOKEN);
 
-    user.tokens = user.tokens.concat( { token })
-    await user.save()
+    await User.findOneAndUpdate(
+        { _id: user._id },
+        { $push: { tokens: { token } } }
+    );
 
-    return token
-}
+    return token;
+};
+
 
 // find user by email and password
 userSchema.statics.findByCredentials = async (email, password) => {

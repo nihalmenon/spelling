@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography, Modal, List, ListItem, ListItemText, Grid, IconButton, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, CircularProgress, Paper, Link } from '@mui/material';
 import { formatDBDate, formatTime } from '../../utils/'
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../requests/axios';
 import toast from 'react-hot-toast';
 
 function GameView({  }) {
@@ -13,7 +13,7 @@ function GameView({  }) {
     const fetchGameData = async () => {
         try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/games/' + id, {
+			const response = await axios.get('/games/' + id, {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},

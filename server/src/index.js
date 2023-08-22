@@ -13,7 +13,7 @@ const { addUserToRoom, removeUserFromRoom, getPlayersFromRoom, addWordsToRoom, u
 const server = http.createServer(app)
 const io = socketio(server, {
   cors: {
-    origin: 'http://localhost:3001',
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST"]
   }
 })

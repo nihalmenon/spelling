@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Box, Alert, Typography, Link } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { User } from '../datastructs';
-import axios from 'axios'
+import axios from '../requests/axios'
 import toast from 'react-hot-toast'
 
 
@@ -30,7 +30,7 @@ function PendingRoom () {
     const getProfile = async () => {
       try {
         const authToken = localStorage.getItem('authToken')
-        const response = await axios.get('http://localhost:3000/users/me', {
+        const response = await axios.get('/users/me', {
           headers: {
             'Authorization': `Bearer ${authToken}`,
           },
@@ -69,7 +69,7 @@ function PendingRoom () {
         if (userData !== {}) {
           try {
             const authToken = localStorage.getItem('authToken')
-            const response = await axios.post('http://localhost:3000/games/room/create', {}, {
+            const response = await axios.post('/games/room/create', {}, {
               headers: {
                 'Authorization': `Bearer ${authToken}`,
               },
