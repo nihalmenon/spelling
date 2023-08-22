@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../requests/axios';
 import { Card, CardContent, Typography, Box, CardHeader, Button, ListItem, Modal, TextField, IconButton } from '@mui/material';
 import { User } from '../../datastructs';
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,7 +32,7 @@ const FriendsCard = ({ friendData }) => {
     try {
       const authToken = localStorage.getItem('authToken');
       const response = await axios.post(
-        'http://localhost:3000/users/friends/add',
+        '/users/friends/add',
         { email: input },
         {
           headers: {

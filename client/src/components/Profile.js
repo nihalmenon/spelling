@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Grid , Container, Box, useMediaQuery, useTheme } from '@mui/material';
-import axios from 'axios';
+import axios from '../requests/axios';
 import { useNavigate } from 'react-router-dom';
 import { User, Friend, FriendRequest, Game } from '../datastructs/';
 import toast from 'react-hot-toast';
@@ -38,7 +38,7 @@ function Profile() {
 	const getProfile = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/users/me', {
+			const response = await axios.get('/users/me', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -58,7 +58,7 @@ function Profile() {
 	const getFriends = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/users/friends', {
+			const response = await axios.get('/users/friends', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -78,7 +78,7 @@ function Profile() {
 	const getFriendRequests = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/users/friends/requests', {
+			const response = await axios.get('/users/friends/requests', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -98,7 +98,7 @@ function Profile() {
 	const getGameData = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/games', {
+			const response = await axios.get('/games', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -118,7 +118,7 @@ function Profile() {
 	const getGameInviteData = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/users/games/invites', {
+			const response = await axios.get('/users/games/invites', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -134,11 +134,9 @@ function Profile() {
 			}
 		}
 	}
-	// const [selectedFriend, setSelectedFriend] = useState({name: ''})
-	// const toggleInviteModal = () => {}
+
 	return (
 		<>
-		{/* <FriendSearchModal inviteModal={true} toggleInviteModal={toggleInviteModal} selectedFriend={selectedFriend} setSelectedFriend={setSelectedFriend}/> */}
 		<Box >
 			<Grid container spacing={2} sx={{ padding: '40px'}}>
 				<Grid item xs={12} md={6}>

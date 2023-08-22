@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardContent, Typography, Box, CardHeader, Button, ListItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../datastructs'
-import axios from 'axios';
+import axios from '../../requests/axios';
 import toast from 'react-hot-toast'
 
 const GameInvitesCard = ({ inviteData }) => {

@@ -7,12 +7,12 @@ import StatModal from './StatModal'
 import WaitingRoom from './WaitingRoom';
 import Leaderboard from './Leaderboard';
 import MultiplayerStats from './MultiplayerStats';
-import axios from 'axios';
+import axios from '../requests/axios';
 import { User } from '../datastructs'
 import toast from 'react-hot-toast'
 
 import io from 'socket.io-client'
-const socket = io.connect('http://localhost:3000')
+const socket = io.connect(process.env.REACT_APP_API_URL)
 
 
 function MultiplayerGame() {
@@ -98,7 +98,7 @@ function MultiplayerGame() {
 	const getProfile = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/users/me', {
+			const response = await axios.get('/users/me', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},

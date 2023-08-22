@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AppBar, Toolbar, Typography, Button, Box, useMediaQuery, IconButton} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import axios from '../requests/axios'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
 import toast from 'react-hot-toast';
@@ -12,7 +12,7 @@ function Header( { handleDrawerToggle, drawerWidth } ) {
 
   const handleLogout = async () => {
     try {
-        const response = await axios.post('http://localhost:3000/users/logout', null, {
+        const response = await axios.post('/users/logout', null, {
             headers: {
             'Authorization': `Bearer ${authToken}`
             }

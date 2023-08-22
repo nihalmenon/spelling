@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Paper, TextField, Modal, Typography, Button  } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../datastructs';
-import axios from 'axios';
+import axios from '../requests/axios';
 import toast from 'react-hot-toast';
 
 function Settings() {
@@ -28,7 +28,7 @@ function Settings() {
     const getProfile = async () => {
         setLoading(true)
 		try {
-			const response = await axios.get('http://localhost:3000/users/me', {
+			const response = await axios.get('/users/me', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -54,7 +54,7 @@ function Settings() {
             updates.password = bufferPassword   
         }
         try {
-			const response = await axios.patch('http://localhost:3000/users/me', updates, {
+			const response = await axios.patch('/users/me', updates, {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -76,7 +76,7 @@ function Settings() {
 
     const handleDeleteAccount = async () => {
         try {
-			const response = await axios.delete('http://localhost:3000/users/me', {
+			const response = await axios.delete('/users/me', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -99,7 +99,7 @@ function Settings() {
 
 	const logoutAllDevices = async () => {
 		try {
-			const response = await axios.post('http://localhost:3000/users/logoutAll', null, {
+			const response = await axios.post('/users/logoutAll', null, {
 				headers: {
 				'Authorization': `Bearer ${authToken}`
 				}

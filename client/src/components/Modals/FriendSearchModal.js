@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Modal, IconButton, Autocomplete, TextField, Button } from '@mui/material';
-import axios from 'axios';
+import axios from '../../requests/axios';
 import { useNavigate } from 'react-router-dom';
 import { Friend } from '../../datastructs/';
 import { Close, Search } from '@mui/icons-material';
@@ -23,7 +23,7 @@ function FriendSearchModal({ inviteModal, setInviteModal, room }) {
 
     const getFriends = async () => {
 		try {
-			const response = await axios.get('http://localhost:3000/users/friends', {
+			const response = await axios.get('/users/friends', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},
@@ -40,7 +40,7 @@ function FriendSearchModal({ inviteModal, setInviteModal, room }) {
 
 	const handleSendInvite = async () => {
 		try {
-			const response = await axios.post('http://localhost:3000/users/games/invites/send', {email: selectedFriend, room }, {
+			const response = await axios.post('/users/games/invites/send', {email: selectedFriend, room }, {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},

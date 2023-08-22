@@ -4,12 +4,12 @@ import { VolumeUp, CheckCircleOutline } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '../utils/'
 import StatModal from './StatModal'
-import axios from 'axios';
+import axios from '../requests/axios';
 import { User } from '../datastructs'
 import toast from 'react-hot-toast'
 
 import io from 'socket.io-client'
-const socket = io.connect('http://localhost:3000')
+const socket = io.connect(process.env.REACT_APP_API_URL)
 
 
 function Play() {
@@ -40,7 +40,7 @@ function Play() {
 	const getProfile = async () => {
 		try {
 			const authToken = localStorage.getItem('authToken')
-			const response = await axios.get('http://localhost:3000/users/me', {
+			const response = await axios.get('/users/me', {
 				headers: {
 					'Authorization': `Bearer ${authToken}`,
 				},

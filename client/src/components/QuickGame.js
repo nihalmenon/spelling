@@ -3,7 +3,7 @@ import { Paper, Box, IconButton, TextField, Button, CircularProgress, Alert, Lin
 import { VolumeUp, CheckCircleOutline } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '../utils/'
-import axios from 'axios';
+import axios from '../requests/axios';
 import toast from 'react-hot-toast';
 import StatModal from './StatModal'
 
@@ -64,7 +64,7 @@ function QuickGame() {
     }, [gameStarted])
 
 	const getWords = async () => {
-		const response = await axios.get('http://localhost:3000/words/quick')
+		const response = await axios.get('/words/quick')
 		if (response.status === 200) {
 			setWordList(response.data)
 			setWordCount(0)

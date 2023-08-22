@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Box, CardHeader, Button, ListItem } from '@mui/material';
 import { User } from '../../datastructs'
-import axios from 'axios';
+import axios from '../../requests/axios';
 import toast from 'react-hot-toast'
 
 const FriendRequestsCard = ({ requestData, getData }) => {
@@ -20,7 +20,7 @@ const FriendRequestsCard = ({ requestData, getData }) => {
     const acceptUser = async (id) => {
       try {
         const authToken = localStorage.getItem('authToken')
-        const response = await axios.post('http://localhost:3000/users/friends/accept', { id }, {
+        const response = await axios.post('/users/friends/accept', { id }, {
             headers: {
             'Authorization': `Bearer ${authToken}`
             }
@@ -42,7 +42,7 @@ const FriendRequestsCard = ({ requestData, getData }) => {
     const declineUser = async (id) => {
       try {
         const authToken = localStorage.getItem('authToken')
-        const response = await axios.post('http://localhost:3000/users/friends/decline', { id }, {
+        const response = await axios.post('/users/friends/decline', { id }, {
             headers: {
             'Authorization': `Bearer ${authToken}`
             }
