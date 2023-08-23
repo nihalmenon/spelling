@@ -8,7 +8,7 @@ const gameRouter = require('./routers/game')
 const app = express()
 
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: process.env.FRONTEND_URL,
   methods: ['GET','POST','DELETE','UPDATE','PATCH','OPTIONS']
 }));
 
