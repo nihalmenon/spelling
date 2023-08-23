@@ -10,15 +10,16 @@ const app = express()
 console.log('frontend url ' + process.env.FRONTEND_URL)
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (origin === process.env.FRONTEND_URL) {
-      console.log('origin matches frontend url', origin)
-      callback(null, true);
-    } else {
-      console.log('not allowed by cors', origin)
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  // origin: function (origin, callback) {
+  //   if (origin === process.env.FRONTEND_URL) {
+  //     console.log('origin matches frontend url', origin)
+  //     callback(null, true);
+  //   } else {
+  //     console.log('not allowed by cors', origin)
+  //     callback(new Error('Not allowed by CORS'));
+  //   }
+  // },
+  origin: '*',
   methods: ['GET','POST','DELETE','UPDATE','PATCH','OPTIONS']
 }));
 
