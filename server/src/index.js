@@ -12,12 +12,14 @@ const { addUserToRoom, removeUserFromRoom, getPlayersFromRoom, addWordsToRoom, u
 const server = http.createServer(app)
 const io = socketio(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
+    // origin: process.env.FRONTEND_URL,
+    origin: '*',
     methods: ["GET", "POST"]
   }
 })
 
 const port = process.env.PORT
+console.log(port)
 
 io.on('connection', (socket) => {
   console.log('new web socket connection: ' + socket.id)
