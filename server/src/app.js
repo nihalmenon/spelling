@@ -28,10 +28,11 @@ app.use(cors({
   methods: ['GET','POST','DELETE','UPDATE','PATCH','OPTIONS']
 }));
 
-app.get('/', () => {
+app.get('/health', (req, res) => {
   console.log(process.env.MONGODB_URL)
   console.log(process.env.FRONTEND_URL)
   console.log('here')
+  res.status(200).send()
 })
 
 app.use(express.json())
