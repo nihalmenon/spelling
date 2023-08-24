@@ -5,8 +5,6 @@ import axios from '../requests/axios'
 import toast from 'react-hot-toast'
 
 function SignUp() {
-  const [formSuccess, setFormSuccess] = useState('')
-  const [formError, setFormError] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -35,8 +33,6 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setFormError('')
-    setFormSuccess('')
     try {
         const response = await axios.post('/users', {
             email,
@@ -53,7 +49,7 @@ function SignUp() {
             throw new Error(response.message)
         }
     } catch (e) {
-        setFormError(e.response.data.message)
+        toast.error('Could not create an account!')
     }
   };
 
@@ -114,16 +110,6 @@ function SignUp() {
             </Button>
         </Box>
         <Typography variant='subtitle2' sx={{textAlign: 'center', color: 'text.grey'}}>Already have an account? Log in <Link href="/login">here</Link>.</Typography>
-        {formError === '' ? null : 
-        (<Alert severity="error">
-          {formError}
-        </Alert>)
-        }
-        {formSuccess === '' ? null : 
-        (<Alert severity="success">
-          {formSuccess}
-        </Alert>)
-        }
       </Box>
     </Box>
   );
