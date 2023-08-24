@@ -52,6 +52,7 @@ function Login() {
           throw new Error(response.data)
         }
     } catch (e) {
+        toast.error('Invalid login!')
         console.log(e)
     }
   }
