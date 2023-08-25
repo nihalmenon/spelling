@@ -27,7 +27,7 @@ function StatModal({ showStatModal, setShowStatModal, stats }) {
 								<ListItemText primary="Correct Words" secondary={stats && `${stats.score}`} />
 							</ListItem>
 							<ListItem>
-								<ListItemText primary="Correct Words" secondary={stats && `${stats.correctWords.length}/${stats.correctWords.length + stats.incorrectWords.length}`} />
+								<ListItemText primary="Ratio" secondary={stats && `${stats.correctWords.length}/${stats.correctWords.length + stats.incorrectWords.length}`} />
 							</ListItem>
 							<ListItem>
 								<ListItemText primary="Correct Words List" secondary={stats && getWordsAsString(stats.correctWords)} />
