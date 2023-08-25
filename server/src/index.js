@@ -26,7 +26,6 @@ io.on('connection', (socket) => {
   // single player 
   socket.on('game_start', async ({ playerId, duration, playerName }, callback) => {
     try {
-      console.log('game_start', playerId, duration, playerName)
       const game = await startGame({ playerId, duration })
       const { error, user } = addUser({ id: socket.id, playerId: game.player, playerName, room: game.room, gameId: game._id })
 
@@ -93,7 +92,7 @@ io.on('connection', (socket) => {
       const socketUser = await getUser(socket.id)
       const game = await Game.findById(socketUser.gameId).populate('correctWords').populate('incorrectWords')
 
-      stats = {
+      const stats = {
         score: game.score,
         duration: game.duration,
         correctWords: game.correctWords, 
@@ -212,7 +211,7 @@ io.on('connection', (socket) => {
       const socketUser = getUser(socket.id)
       const game = await Game.findById(socketUser.gameId).populate('correctWords').populate('incorrectWords').populate('leaderboard.user')
 
-      stats = {
+      const stats = {
         score: game.score,
         duration: game.duration,
         correctWords: game.correctWords, 

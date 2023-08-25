@@ -20,7 +20,7 @@ function Header( { handleDrawerToggle, drawerWidth } ) {
 
         if (response.status === 200) {
             localStorage.removeItem('authToken')
-            navigate('/')
+            navigate('/login')
             toast.success('Logged out!')
         }
     } catch (e) {
