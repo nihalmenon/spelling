@@ -31,7 +31,10 @@ function Play() {
 	const [gameFinished, setGameFinished] = useState(false)
 	const [showStatModal, setShowStatModal] = useState(false)
 
-	const navigate = useNavigate();
+	const navigate = useNavigate()
+
+	const synth = window.speechSynthesis
+	const voices = synth.getVoices()
 
 	useEffect(() => {
 		getProfile()
@@ -119,8 +122,10 @@ function Play() {
         if (!word || !topics.includes(topic)) {
 			return;
 		}
-		const utterance = new SpeechSynthesisUtterance(word[topic])
-		speechSynthesis.speak(utterance)
+		let utterance = new SpeechSynthesisUtterance(word[topic])
+		utterance.voice = voices.filter((voice) => (voice.name === 'Alex'))[0]
+		// speechSynthesis.speak(utterance)
+		window.speechSynthesis.speak(utterance)
     }
 
 	const getMoreWords = () => {
