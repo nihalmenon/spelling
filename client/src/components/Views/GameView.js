@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Typography, Modal, List, ListItem, ListItemText, Grid, IconButton, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, CircularProgress, Paper, Link } from '@mui/material';
+import { Box, Button, Typography, Modal, Tooltip, List, ListItem, ListItemText, Grid, IconButton, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, CircularProgress, Paper, Link } from '@mui/material';
 import { formatDBDate, formatTime } from '../../utils/'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../requests/axios';
 import toast from 'react-hot-toast';
+import InfoIcon from '@mui/icons-material/Info';
 
 function GameView({  }) {
     const navigate = useNavigate()
@@ -68,7 +69,17 @@ function GameView({  }) {
                             <Typography variant='body1'>{formatTime(game.duration)}</Typography>
                         </Grid>
                         <Grid item xs={3}>
-                            <Typography variant='body1'>Score:</Typography>
+                            <Tooltip
+                            title={
+                                <Typography sx={{ fontSize: '14px' }}>
+                                +1 for correct spellings, -1 for incorrect spellings
+                                </Typography>
+                            }
+                            sx={{marginBottom: '-5px'}}
+                            >
+                            <InfoIcon color="primary" />
+                            </Tooltip>
+                            <span style={{ marginLeft: '8px' }}>Score:</span>
                         </Grid>
                         <Grid item xs={9}>
                             <Typography variant='body1'>{game.score}</Typography>

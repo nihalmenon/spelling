@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Typography, Modal, List, ListItem, ListItemText } from '@mui/material';
-import { getWordsAsString } from '../utils/'
+import { Box, Button, Typography, Modal, List, ListItem, ListItemText, ListItemButton, Tooltip } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import { getWordsAsString } from '../utils/';
 
 function StatModal({ showStatModal, setShowStatModal, stats }) {
 	
@@ -24,7 +25,16 @@ function StatModal({ showStatModal, setShowStatModal, stats }) {
 					<Box mt={2}>
 						<List>
 							<ListItem>
-								<ListItemText primary="Correct Words" secondary={stats && `${stats.score}`} />
+								<ListItemText primary="Score" secondary={stats && `${stats.score}`} />
+								<Tooltip
+									title={
+									<Typography sx={{fontSize:'14px'}}>
+										+1 for correct spellings, -1 for incorrect spellings
+									</Typography>
+									}
+								>
+									<InfoIcon color="primary" />
+								</Tooltip>
 							</ListItem>
 							<ListItem>
 								<ListItemText primary="Ratio" secondary={stats && `${stats.correctWords.length}/${stats.correctWords.length + stats.incorrectWords.length}`} />
