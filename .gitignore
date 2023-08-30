@@ -3,3 +3,4 @@ server/config/dev.env
 server/config/test.env
 data/dev.env
 spelling.code-workspace
+venv
